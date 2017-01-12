@@ -1,26 +1,32 @@
 package com.search.spring.web.dao;
 
+import com.varra.log.ConsoleLogger;
+import com.varra.log.LoggerConstants;
+
 import java.io.IOException;
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
+import static com.varra.props.VarraProperties.getPropertyAsGeneric;
+import static com.varra.props.VarraProperties.setProperty;
+import static com.varra.spring.SpringContext.setConfigFileName;
 
 public class ExcelTest {
 
 	// @SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException {
-		String excelFilePath = "C:/titlelist_assia.xls";
+
+		setProperty(LoggerConstants.LOG_CLASS_FQ_NAME, ConsoleLogger.class.getName());
+		setConfigFileName("/krishna/varra/workspaces/own/searchEngine/src/com/search/spring/web/config/dao-context.xml");
+		String excelFilePath = "/Users/rareddy/Downloads/titlelist_assia.xls";
 		ASSIAExcelParcer reader = new ASSIAExcelParcer();
-		List<TitleListASSIA> listBooks = reader
-				.readBooksFromExcelFile(excelFilePath);
+		List<TitleListASSIA> listBooks = reader.readBooksFromExcelFile(excelFilePath);
 		System.out.println(listBooks);
-		
-		TitleListASSIADAO books = new TitleListASSIADAO();
+
+		final TitleListASSIADAO books = getPropertyAsGeneric("TitleListASSIADAO");
+		System.out.println("ExcelTest.main: "+listBooks.get(0));
+		books.saveOrUpdate(listBooks.get(0));
 		List<TitleListASSIA> ls = books.getTitleListASSIAs();
-		System.out.println(ls.size());
+		System.out.println(ls);
 
 		// Create session Factory Objects and session objects
 

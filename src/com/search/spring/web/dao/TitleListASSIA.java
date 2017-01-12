@@ -1,9 +1,8 @@
 package com.search.spring.web.dao;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * @author RAJASEKHAR
@@ -12,18 +11,32 @@ import javax.persistence.Transient;
  *<ol>persist into the database</ol>
  */
 
-@Entity
-public class TitleListASSIA {
+/**
+ *
+ * @author Ram Srinvasan
+ * Use class name in NamedQuery
+ * Use table name in NamedNativeQuery
+ */
+// no name = here so the entity can be used as Person
+@javax.persistence.Entity
+// table name specified here
+@javax.persistence.Table(name = "TitleListASSIA")
+public class TitleListASSIA implements Serializable
+{
 	@Column
 	@Id
 	private String serialTitle;
 	@Column
 	private String ISSNPrint;
-	
+	@Column
 	private String ISSNElectronic;
+	@Column
 	private String publisherName;
+	@Column
 	private String countryOfPublication;
+	@Column
 	private String ASSIA;
+
 	public String getSerialTitle() {
 		return serialTitle;
 	}
