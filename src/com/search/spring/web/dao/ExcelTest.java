@@ -5,6 +5,7 @@ import com.varra.log.LoggerConstants;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.varra.props.VarraProperties.getPropertyAsGeneric;
 import static com.varra.props.VarraProperties.setProperty;
@@ -13,10 +14,12 @@ import static com.varra.spring.SpringContext.setConfigFileName;
 public class ExcelTest {
 
 	// @SuppressWarnings("deprecation")
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException
+	{
 
 		setProperty(LoggerConstants.LOG_CLASS_FQ_NAME, ConsoleLogger.class.getName());
 		setConfigFileName("/krishna/varra/workspaces/own/searchEngine/src/com/search/spring/web/config/dao-context.xml");
+		//SpringContext.getContext();
 		String excelFilePath = "/Users/rareddy/Downloads/titlelist_assia.xls";
 		ASSIAExcelParcer reader = new ASSIAExcelParcer();
 		List<TitleListASSIA> listBooks = reader.readBooksFromExcelFile(excelFilePath);
@@ -24,10 +27,11 @@ public class ExcelTest {
 
 		final TitleListASSIADAO books = getPropertyAsGeneric("TitleListASSIADAO");
 		System.out.println("ExcelTest.main: "+listBooks.get(0));
+		System.out.println(books);
 		books.saveOrUpdate(listBooks.get(0));
 		List<TitleListASSIA> ls = books.getTitleListASSIAs();
 		System.out.println(ls);
-
+		TimeUnit.MINUTES.sleep(10);
 		// Create session Factory Objects and session objects
 
 		/*

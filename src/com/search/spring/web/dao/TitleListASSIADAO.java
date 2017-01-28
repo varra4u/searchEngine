@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Component("TitleListASSIADAO")
+@Component(value = "TitleListASSIADAO")
 @Transactional
 public class TitleListASSIADAO
 {
